@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 
 from lists.views import home_page
-from lists.models import Item
+from .models import Item
 
 
 
@@ -28,22 +28,13 @@ class HomePageTest(TestCase):
         """тест: переадресует после POST запроса"""
         response = self.client.post('/', data={'item_text': 'A new list item'})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/lists/any_url/')
 
     def test_only_saves_items_when_necessary(self):
         """тест: сохранять элементы, только когда нужно"""
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
 
-    def test_display_all_list_items(self):
-        """тест: отображаются все элементы списка"""
-        Item.objects.create(text='item 1')
-        Item.objects.create(text='item 2')
-
-        response = self.client.get('/')
-
-        self.assertIn('item 1', response.content.decode())
-        self.assertIn('item 2', response.content.decode())
 
 class ItemModelTest(TestCase):
     """тест модели элемента списка"""
@@ -66,3 +57,22 @@ class ItemModelTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, 'The first (ever) list item')
         self.assertEqual(second_saved_item.text, 'Item the second')
+
+
+class ListViewTest(TestCase):
+    """тест предоставления списка"""
+
+    def test_uses_list_template(self):
+        """тест: используется шаблон списка"""
+        response = self.client.get('/lists/any_url/')
+        self.assertTemplateUsed(response, 'list.html')
+
+    def test_displays_all_items(self):
+        """тест: отображаются все элементы списка"""
+        Item.objects.create(text='itemy 1')
+        Item.objects.create(text='itemy 2')
+
+        response = self.client.get('/lists/any_url/')
+
+        self.assertContains(response, 'itemy 1')
+        self.assertContains(response, 'itemy 2')
