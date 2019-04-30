@@ -1,11 +1,10 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-from lists import views
+from lists import views as list_wiews
+from lists import urls as list_urls
 
 urlpatterns = [
-    url(r'^$', views.home_page, name='home'),
-    url(r'^lists/new$', views.new_list, name='new_list'),
-    url(r'^lists/(\d+)/$', views.view_list, name='view_list'),
-    url(r'^lists/(\d+)/add_item$', views.add_list, name='add_list'),
+    url(r'^$', list_wiews.home_page, name='home'),
+    url(r'^lists/', include(list_urls)),
     url(r'^admin/', admin.site.urls),
 ]
