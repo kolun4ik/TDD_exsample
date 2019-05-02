@@ -1,11 +1,13 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 import time
 
 MAX_WAIT = 10
-class NewVisitorTest(LiveServerTestCase):
+
+
+class NewVisitorTest(StaticLiveServerTestCase):
     """Тест нового пользовтеля"""
 
     def setUp(self):
@@ -73,7 +75,6 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Она посещает этот URL-адрес - ее список по прежнему там.
         # Удовлетворенная, она ложиться спать.
-
 
     def test_multiply_users_can_start_list_at_different_urls(self):
         """тест: многочисленные пользователи могут начать списки по разным Url"""
