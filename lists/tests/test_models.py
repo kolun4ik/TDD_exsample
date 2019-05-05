@@ -66,8 +66,8 @@ class ListViewTest(TestCase):
 
         self.assertContains(response, 'itemy 1')
         self.assertContains(response, 'itemy 2')
-        self.assertContains(response, 'другой элемент 1 списка')
-        self.assertContains(response, 'другой элемент 2 списка')
+        self.assertNotContains(response, 'другой элемент 1 списка')
+        self.assertNotContains(response, 'другой элемент 2 списка')
 
     def test_passes_correct_list_to_template(self):
         """тест: передает правильный шаблон списка"""
@@ -107,7 +107,7 @@ class NewItemTest(TestCase):
         correct_list = List.objects.create()
 
         self.client.post(
-            f'/lists/{correct_list.id}/add_item',
+            f'/lists/{correct_list.id}/',
             data={'item_text': 'A new item for existing list'},
         )
         self.assertEqual(Item.objects.count(), 1)
@@ -121,7 +121,7 @@ class NewItemTest(TestCase):
         correct_list = List.objects.create()
 
         response = self.client.post(
-            f'/lists/{correct_list.id}/add_item',
+            f'/lists/{correct_list.id}/',
             data={'item_text': 'A new item for existing list'}
         )
         self.assertRedirects(response, f'/lists/{correct_list.id}/')
