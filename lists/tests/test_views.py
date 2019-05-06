@@ -81,10 +81,9 @@ class ListViewTest(TestCase):
             f'/lists/{list_.id}/',
             data = {'item_text': ''}
         )
-
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'list.html')
-        expected_error = escape("You can't have an empty item")
+        expected_error = escape("You can`t have an empty list item")
         self.assertContains(response, expected_error)
 
 
@@ -110,7 +109,7 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'item_text': ''})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
-        expected_error = escape("You can't have an empty item")
+        expected_error = escape("You can`t have an empty list item")
         self.assertContains(response, expected_error)
 
     def test_invalid_list_items_arent_saved(self):
@@ -118,11 +117,6 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'item_text': ''})
         self.assertEqual(List.objects.count(), 0)
         self.assertEqual(Item.objects.count(), 0)
-
-
-class NewItemTest(TestCase):
-    """тест нового элемента списка"""
-    pass
 
 
 

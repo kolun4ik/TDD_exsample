@@ -84,6 +84,7 @@ class ListViewTest(TestCase):
         list_ = List.objects.create()
         self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
 
+
 class NewListTest(TestCase):
     """тест нового списка"""
 
