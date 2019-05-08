@@ -22,7 +22,7 @@ class NewVisitorTest(FunctionalTest):
         inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter to-do item'
+            'Enter a to-do item'
         )
         # Она набирает в текстовом поле "Купить павлиньи перья" (ее хобби-
         # вязание рыболовных мушек)
